@@ -5,7 +5,16 @@
 
     <th:block th:fragment="content">
 
-        <h1 class="mt-4">GuestBook List Page</h1>
+        <!--등록 페이지로 가는 버튼과 링크 -->
+        <h1 class="mt-4">GuestBook List Page
+            <span>
+                <a th:href="@{/guestbook/register}">
+                    <button type="button" class="btn btn-outline-primary">REGISTER
+                    </button>
+                </a>
+            </span>
+        </h1>
+        <!--끝 -->
 
         <table class="table table-striped">
             <thead>
@@ -19,7 +28,14 @@
             <tbody>
 
             <tr th:each="dto : ${result.dtoList}" >
-                <th scope="row">[[${dto.gno}]]</th>
+                <th scope="row">
+                    <!--각 글 번호에 링크 처리-->
+                    <a th:href="@{/guestbook/read(gno = ${dto.gno},
+                    page= ${result.page})}">
+                        [[${dto.gno}]]
+                    </a>
+                    <!--끝-->
+                </th>
                 <td>[[${dto.title}]]</td>
                 <td>[[${dto.writer}]]</td>
                 <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
@@ -49,6 +65,54 @@
             </li>
 
         </ul>
+        <!-- 끝-->
+
+        <!-- 모달창 부트스트랩-->
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 끝-->
+
+        <!-- 등록 처리 완료 모달창-->
+        <script th:inline="javascript">
+
+            var msg = [[${msg}]];
+
+            console.log(msg);
+
+            if(msg){
+                $(".modal").modal();
+            }
+            var searchForm = $("#searchForm");
+
+            $('.btn-search').click(function(e){
+
+                searchForm.submit();
+
+            });
+
+            $('.btn-clear').click(function(e){
+
+                searchForm.empty().submit();
+
+            });
+        </script>
         <!-- 끝-->
 
     </th:block>

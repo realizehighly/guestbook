@@ -14,6 +14,9 @@ public class PageRequestDTO {
 
     private int page;
     private int size;
+    //추가
+    private String type;
+    private String keyword;
 
     public PageRequestDTO(){
         this.page = 1;
@@ -24,5 +27,4 @@ public class PageRequestDTO {
 
         return PageRequest.of(page -1, size, sort);
     }
-
 }
